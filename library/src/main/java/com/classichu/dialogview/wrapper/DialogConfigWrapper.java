@@ -5,7 +5,6 @@ import android.view.View;
 import com.classichu.dialogview.ui.ClassicDialogFragment;
 
 import java.io.Serializable;
-import java.lang.ref.WeakReference;
 
 /**
  * Created by louisgeek on 2017/3/2.
@@ -19,15 +18,20 @@ public class DialogConfigWrapper implements Serializable {
     private String cancelText;
     private boolean cancelable;
 
-    public double getWidthPercentValue() {
+    public float getWidthPercentValue() {
         return widthPercentValue;
     }
-
-    public void setWidthPercentValue(double widthPercentValue) {
+    public float getHeightPercentValue() {
+        return heightPercentValue;
+    }
+    public void setWidthPercentValue(float widthPercentValue) {
         this.widthPercentValue = widthPercentValue;
     }
-
-    private double widthPercentValue;//接受0~1 不包括0
+    public void setHeightPercentValue(float heightPercentValue) {
+        this.heightPercentValue = heightPercentValue;
+    }
+    private float widthPercentValue;//接受0~100 不包括0
+    private float heightPercentValue;//接受0~100 不包括0
 
     public boolean isCancelable() {
         return cancelable;

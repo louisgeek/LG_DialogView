@@ -20,8 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.classichu.dialogview.R;
-import com.classichu.dialogview.util.SizeUtil;
 import com.classichu.dialogview.ui.ClassicDialogFragment;
+import com.classichu.dialogview.util.SizeUtil;
 
 
 /**
@@ -167,7 +167,8 @@ public class DialogManager {
         mLoadingClassicDialogFragment = new ClassicDialogFragment.Builder(fragmentActivity)
                 .setContentView(linearLayout)
                 .setCancelable(false)
-                .setWidthPercentValue(0.45)
+                .setWidthPercentValue(45F)
+                .setHeightPercentValue(45F)
                 .build();
 
         mLoadingClassicDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "showLoadingDialog");
@@ -195,7 +196,8 @@ public class DialogManager {
         mLoadingClassicDialogFragment = new ClassicDialogFragment.Builder(fragmentActivity)
                 .setContentView(view)
                 .setCancelable(false)
-                .setWidthPercentValue(0.30)
+                .setWidthPercentValue(30F)
+                .setHeightPercentValue(30F)
                 .build();
 
         mLoadingClassicDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "showCustomLoadingDialog");

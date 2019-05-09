@@ -3,6 +3,8 @@ package com.classichu.dialogview.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -10,13 +12,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 
 import com.classichu.dialogview.helper.DialogFragmentShowHelper;
+import com.classichu.dialogview.util.SizeUtil;
 import com.classichu.dialogview.wrapper.DialogConfigWrapper;
 
 /**
@@ -123,22 +124,29 @@ public class ClassicDialogFragment extends AppCompatDialogFragment {
         return DialogFragmentShowHelper.show(transaction, this, tag);
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
-        /**
-         * 设置 宽度
-         */
-        Dialog dialog = getDialog();
-        if (dialog != null && dialog.getWindow() != null && mWrapperDialogConfig.getWidthPercentValue() > 0) {
-            DisplayMetrics dm = new DisplayMetrics();
-            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            dialog.getWindow().setLayout((int) (dm.widthPixels * mWrapperDialogConfig.getWidthPercentValue()), ViewGroup.LayoutParams.WRAP_CONTENT);
-            //对话框背景透明
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        Dialog dialog = this.getDialog();
+        if (dialog != null && dialog.getWindow() != null) {
+            int width = getDialog().getWindow().getAttributes().width;
+            int height = getDialog().getWindow().getAttributes().height;
+
+            if (mWrapperDialogConfig.getWidthPercentValue() > 0F) {
+                width = (int) (SizeUtil.getScreenWidth() * mWrapperDialogConfig.getWidthPercentValue() * 1.0F / 100);
+            }
+            if (mWrapperDialogConfig.getHeightPercentValue() > 0F) {
+                height = (int) (SizeUtil.getScreenHeight() * mWrapperDialogConfig.getHeightPercentValue() * 1.0F / 100);
+            }
+       /* WindowManager.LayoutParams win_lp = getDialog().getWindow().getAttributes();
+        win_lp.width = width;
+        getDialog().getWindow().setAttributes(win_lp);*/
+            //加这个，否则无法实现百分百全屏
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getDialog().getWindow().setLayout(width, height);
         }
     }
-
     public View getDialogContentView() {
         return mWrapperDialogConfig.getContentView();
     }
@@ -214,11 +222,14 @@ public class ClassicDialogFragment extends AppCompatDialogFragment {
             return this;
         }
 
-        public Builder setWidthPercentValue(double widthPercentValue) {
+        public Builder setWidthPercentValue(float widthPercentValue) {
             wrapperDialogConfig.setWidthPercentValue(widthPercentValue);
             return this;
         }
-
+        public Builder setHeightPercentValue(float heightPercentValue) {
+            wrapperDialogConfig.setHeightPercentValue(heightPercentValue);
+            return this;
+        }
         public Builder setCancelable(boolean cancelable) {
             wrapperDialogConfig.setCancelable(cancelable);
             return this;
