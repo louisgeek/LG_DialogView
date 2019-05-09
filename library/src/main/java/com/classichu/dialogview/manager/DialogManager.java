@@ -275,6 +275,7 @@ public class DialogManager {
         builder.setMessage(message);
         builder.setOkText(okText);
         builder.setOnBtnClickListener(onBtnClickListener);
+        builder.setBackgroundColorValue(String.valueOf(Color.WHITE));
 
         mTipDialogFragment = builder.build();
         mTipDialogFragment.show(fragmentActivity.getSupportFragmentManager(), tag);

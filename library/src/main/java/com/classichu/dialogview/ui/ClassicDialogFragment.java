@@ -143,10 +143,16 @@ public class ClassicDialogFragment extends AppCompatDialogFragment {
         win_lp.width = width;
         getDialog().getWindow().setAttributes(win_lp);*/
             //加这个，否则无法实现百分百全屏
-            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            if (mWrapperDialogConfig.getBackgroundColorValue() != null) {
+                int backgroundColor = Integer.valueOf(mWrapperDialogConfig.getBackgroundColorValue());
+                getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
+            } else {
+                getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            }
             getDialog().getWindow().setLayout(width, height);
         }
     }
+
     public View getDialogContentView() {
         return mWrapperDialogConfig.getContentView();
     }
@@ -226,10 +232,17 @@ public class ClassicDialogFragment extends AppCompatDialogFragment {
             wrapperDialogConfig.setWidthPercentValue(widthPercentValue);
             return this;
         }
+
         public Builder setHeightPercentValue(float heightPercentValue) {
             wrapperDialogConfig.setHeightPercentValue(heightPercentValue);
             return this;
         }
+
+        public Builder setBackgroundColorValue(String backgroundColorValue) {
+            wrapperDialogConfig.setBackgroundColorValue(backgroundColorValue);
+            return this;
+        }
+
         public Builder setCancelable(boolean cancelable) {
             wrapperDialogConfig.setCancelable(cancelable);
             return this;

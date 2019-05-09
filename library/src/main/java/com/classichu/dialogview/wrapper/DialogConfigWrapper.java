@@ -17,6 +17,7 @@ public class DialogConfigWrapper implements Serializable {
     private String okText;
     private String cancelText;
     private boolean cancelable;
+    private String backgroundColorValue;
 
     public float getWidthPercentValue() {
         return widthPercentValue;
@@ -83,4 +84,11 @@ public class DialogConfigWrapper implements Serializable {
         this.contentView = contentView;
     }
 
+    public String getBackgroundColorValue() {
+        return backgroundColorValue;
+    }
+
+    public void setBackgroundColorValue(String backgroundColorValue) {
+        this.backgroundColorValue = backgroundColorValue;
+    }
 }
