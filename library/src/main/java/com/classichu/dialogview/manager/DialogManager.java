@@ -169,6 +169,7 @@ public class DialogManager {
                 .setCancelable(false)
                 .setWidthPercentValue(45F)
                 .setHeightPercentValue(45F)
+                .setBackgroundColorValue(String.valueOf(Color.WHITE))
                 .build();
 
         mLoadingClassicDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "showLoadingDialog");
@@ -198,6 +199,7 @@ public class DialogManager {
                 .setCancelable(false)
                 .setWidthPercentValue(30F)
                 .setHeightPercentValue(30F)
+                .setBackgroundColorValue(String.valueOf(Color.WHITE))
                 .build();
 
         mLoadingClassicDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "showCustomLoadingDialog");
@@ -236,6 +238,7 @@ public class DialogManager {
                 .setOnBtnClickListener(onBtnClickListener)
                 .setOkText(okText)
                 .setCancelText(cancelText)
+                .setBackgroundColorValue(String.valueOf(Color.WHITE))
                 .build();
         mClassicDialogFragment.show(fragmentActivity.getSupportFragmentManager(), tag);
     }
@@ -363,6 +366,7 @@ public class DialogManager {
                 })
                 .setOkText(okText)
                 .setCancelText(cancelText)
+                .setBackgroundColorValue(String.valueOf(Color.WHITE))
                 .build();
         mEditDialogFragment.show(fragmentActivity.getSupportFragmentManager(), tag);
     }
