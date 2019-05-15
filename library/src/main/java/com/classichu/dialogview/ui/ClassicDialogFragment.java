@@ -147,7 +147,7 @@ public class ClassicDialogFragment extends AppCompatDialogFragment {
                 int backgroundColor = Integer.valueOf(mWrapperDialogConfig.getBackgroundColorValue());
                 getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
             } else {
-                getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
             }
             getDialog().getWindow().setLayout(width, height);
         }

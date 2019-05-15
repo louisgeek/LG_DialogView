@@ -199,7 +199,7 @@ public class DialogManager {
                 .setCancelable(false)
                 .setWidthPercentValue(30F)
                 .setHeightPercentValue(30F)
-                .setBackgroundColorValue(String.valueOf(Color.WHITE))
+                .setBackgroundColorValue(String.valueOf(Color.TRANSPARENT))
                 .build();
 
         mLoadingClassicDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "showCustomLoadingDialog");
