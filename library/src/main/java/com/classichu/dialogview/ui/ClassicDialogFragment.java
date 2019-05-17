@@ -7,35 +7,52 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 
 import com.classichu.dialogview.helper.DialogFragmentShowHelper;
+import com.classichu.dialogview.listener.OnBtnClickListener;
+import com.classichu.dialogview.util.ReflectUtil;
 import com.classichu.dialogview.util.SizeUtil;
 import com.classichu.dialogview.wrapper.DialogConfigWrapper;
 
 /**
  * Created by louisgeek on 2016/6/7.
  */
-public class ClassicDialogFragment extends AppCompatDialogFragment {
-    private final static String TITLE_KEY = "title_key";
-    private final static String MESSAGE_KEY = "message_key";
+public class ClassicDialogFragment extends DialogFragment {
+    private static final String TAG = "ClassicDialogFragment";
+    private final static String TITLE_KEY = "TITLE_KEY";
+    private final static String MESSAGE_KEY = "MESSAGE_KEY";
     private DialogConfigWrapper mWrapperDialogConfig = new DialogConfigWrapper();
+    protected AppCompatActivity mActivity;
+    protected Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity = (AppCompatActivity) context;
+        mContext = context;
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        String title = getArguments().getString(TITLE_KEY);
-        String message = getArguments().getString(MESSAGE_KEY);
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        String title = null;
+        String message = null;
+        if (getArguments() != null) {
+            title = getArguments().getString(TITLE_KEY);
+            message = getArguments().getString(MESSAGE_KEY);
+        }
         if (!TextUtils.isEmpty(title)) {
             builder.setTitle(title);
         }
@@ -45,6 +62,7 @@ public class ClassicDialogFragment extends AppCompatDialogFragment {
         //这样设置无效 需要设置DialogFragment的setCancelable方法才有效
         //!!! builder.setCancelable(mWrapperDialogConfig.isCancelable());
         this.setCancelable(mWrapperDialogConfig.isCancelable());
+
         if (mWrapperDialogConfig.getCustomTitleView() != null) {
             builder.setCustomTitle(mWrapperDialogConfig.getCustomTitleView());
         }
@@ -71,21 +89,30 @@ public class ClassicDialogFragment extends AppCompatDialogFragment {
                 }
             });
         }
-
-
-        Dialog dialog = builder.create();
-
+        AlertDialog alertDialog = builder.create();
         if (!TextUtils.isEmpty(title)) {
-            dialog.requestWindowFeature(Window.FEATURE_OPTIONS_PANEL);
+            alertDialog.requestWindowFeature(Window.FEATURE_OPTIONS_PANEL);
         } else {
             //隐藏标题
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
+        alertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK
+                        && event.getAction() == KeyEvent.ACTION_UP) {
+                    return onDialogKeyBackPressed();
+                }
+                return false;
+            }
+        });
+//         return super.onCreateDialog(savedInstanceState);
+        return alertDialog;
 
+    }
 
-        // return super.onCreateDialog(savedInstanceState);
-        return dialog;
-
+    protected boolean onDialogKeyBackPressed() {
+        return false;
     }
 
     private static ClassicDialogFragment newInstance(String title, String message) {
@@ -98,14 +125,12 @@ public class ClassicDialogFragment extends AppCompatDialogFragment {
         return dialogFragment;
     }
 
-    public static abstract class OnBtnClickListener {
-        public void onBtnClickOk(DialogInterface dialogInterface) {
-
-        }
-
-        public void onBtnClickCancel(DialogInterface dialogInterface) {
-
-        }
+    public boolean isDismissed() {
+        boolean mDismissed = ReflectUtil.getFieldValueFromSuperClass(DialogFragment.class, this, "mDismissed");
+//        boolean mShownByMe = ReflectTool.getFieldValueFromSuperClass(DialogFragment.class, this, "mShownByMe");
+        Log.e(TAG, "mProgressDialogFragment2 isDismissed: " + mDismissed + this);
+//        Log.e(TAG, "mProgressDialogFragment2 mShownByMe: " + mShownByMe + this);
+        return mDismissed;
     }
 
     private void setWrapperDialogConfig(DialogConfigWrapper wrapperDialogConfig) {
@@ -130,8 +155,8 @@ public class ClassicDialogFragment extends AppCompatDialogFragment {
         super.onStart();
         Dialog dialog = this.getDialog();
         if (dialog != null && dialog.getWindow() != null) {
-            int width = getDialog().getWindow().getAttributes().width;
-            int height = getDialog().getWindow().getAttributes().height;
+            int width = dialog.getWindow().getAttributes().width;
+            int height = dialog.getWindow().getAttributes().height;
 
             if (mWrapperDialogConfig.getWidthPercentValue() > 0F) {
                 width = (int) (SizeUtil.getScreenWidth() * mWrapperDialogConfig.getWidthPercentValue() * 1.0F / 100);
@@ -139,21 +164,21 @@ public class ClassicDialogFragment extends AppCompatDialogFragment {
             if (mWrapperDialogConfig.getHeightPercentValue() > 0F) {
                 height = (int) (SizeUtil.getScreenHeight() * mWrapperDialogConfig.getHeightPercentValue() * 1.0F / 100);
             }
-       /* WindowManager.LayoutParams win_lp = getDialog().getWindow().getAttributes();
-        win_lp.width = width;
-        getDialog().getWindow().setAttributes(win_lp);*/
             //加这个，否则无法实现百分百全屏
             if (mWrapperDialogConfig.getBackgroundColorValue() != null) {
                 int backgroundColor = Integer.valueOf(mWrapperDialogConfig.getBackgroundColorValue());
-                getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
             } else {
-                getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
             }
-            getDialog().getWindow().setLayout(width, height);
+            dialog.getWindow().setLayout(width, height);
         }
     }
 
-    public View getDialogContentView() {
+
+
+
+    public View getContentView() {
         return mWrapperDialogConfig.getContentView();
     }
 

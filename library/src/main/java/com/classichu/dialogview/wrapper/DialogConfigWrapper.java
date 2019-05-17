@@ -2,7 +2,7 @@ package com.classichu.dialogview.wrapper;
 
 import android.view.View;
 
-import com.classichu.dialogview.ui.ClassicDialogFragment;
+import com.classichu.dialogview.listener.OnBtnClickListener;
 
 import java.io.Serializable;
 
@@ -58,13 +58,13 @@ public class DialogConfigWrapper implements Serializable {
         this.cancelText = cancelText;
     }
 
-    private ClassicDialogFragment.OnBtnClickListener onBtnClickListener;
+    private OnBtnClickListener onBtnClickListener;
 
-    public ClassicDialogFragment.OnBtnClickListener getOnBtnClickListener() {
+    public OnBtnClickListener getOnBtnClickListener() {
         return onBtnClickListener;
     }
 
-    public void setOnBtnClickListener(ClassicDialogFragment.OnBtnClickListener onBtnClickListener) {
+    public void setOnBtnClickListener(OnBtnClickListener onBtnClickListener) {
         this.onBtnClickListener = onBtnClickListener;
     }
 
