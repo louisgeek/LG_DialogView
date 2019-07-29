@@ -159,5 +159,17 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
 
+        ClassicDialogFragment classicDialogFragment =
+                new ClassicDialogFragment.Builder(this)
+                        .setOnBtnClickListener(new OnBtnClickListener() {
+                            @Override
+                            public void onBtnClickOk(DialogInterface dialogInterface) {
+                                super.onBtnClickOk(dialogInterface);
+                            }
+                        })
+                        .build();
+        classicDialogFragment.show(getSupportFragmentManager(), "DASDAS");
+
+
     }
 }
