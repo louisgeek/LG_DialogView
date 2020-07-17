@@ -1,23 +1,24 @@
 package com.classichu.dialogview.ui;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.classichu.dialogview.helper.DialogFragmentShowHelper;
 import com.classichu.dialogview.listener.OnBtnClickListener;
@@ -166,16 +167,15 @@ public class ClassicDialogFragment extends DialogFragment {
             }
             //加这个，否则无法实现百分百全屏
             if (mWrapperDialogConfig.getBackgroundColorValue() != null) {
-                int backgroundColor = Integer.valueOf(mWrapperDialogConfig.getBackgroundColorValue());
+                int backgroundColor = Integer.parseInt(mWrapperDialogConfig.getBackgroundColorValue());
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
             } else {
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
             dialog.getWindow().setLayout(width, height);
         }
     }
-
-
 
 
     public View getContentView() {

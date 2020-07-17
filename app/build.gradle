@@ -4,7 +4,7 @@ android {
 //    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.classichu.classicdialogview"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"

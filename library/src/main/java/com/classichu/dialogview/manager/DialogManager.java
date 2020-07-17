@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -17,6 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.classichu.dialogview.R;
 import com.classichu.dialogview.listener.OnAutoHideListener;
@@ -175,12 +176,12 @@ public class DialogManager {
 
     public static void showClassicDialog(FragmentActivity fragmentActivity, String title, String message,
                                          OnBtnClickListener onBtnClickListener) {
-        showClassicDialog(fragmentActivity, title, message, onBtnClickListener, "确定", "取消", "showClassicDialog");
+        showClassicDialog(fragmentActivity, title, message, onBtnClickListener, "确定", "取消", String.valueOf(Color.TRANSPARENT),"showClassicDialog");
     }
 
     public static void showClassicDialog(FragmentActivity fragmentActivity, String title, String message,
                                          OnBtnClickListener onBtnClickListener,
-                                         String okText, String cancelText, String tag) {
+                                         String okText, String cancelText,String backgroundColorValue, String tag) {
         if (fragmentActivity == null || fragmentActivity.isFinishing() || message == null) {
             return;
         }
@@ -193,6 +194,7 @@ public class DialogManager {
                 .setOnBtnClickListener(onBtnClickListener)
                 .setOkText(okText)
                 .setCancelText(cancelText)
+                .setBackgroundColorValue(backgroundColorValue)
                 .build();
         classicDialogFragment.show(fragmentActivity.getSupportFragmentManager(), tag);
         mClassicDialogFragmentWeakReference = new WeakReference<>(classicDialogFragment);
