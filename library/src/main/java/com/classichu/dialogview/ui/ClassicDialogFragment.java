@@ -159,6 +159,7 @@ public class ClassicDialogFragment extends DialogFragment {
         if (dialog != null && dialog.getWindow() != null) {
             int width = dialog.getWindow().getAttributes().width;
             int height = dialog.getWindow().getAttributes().height;
+            //不设置这个 部分机子上非透明背景会出现四周黑边框（不过启用硬件加速可能可以去掉边框）
             dialog.getWindow().setFormat(PixelFormat.RGBA_8888);
             if (mWrapperDialogConfig.getWidthPercentValue() > 0F) {
                 width = (int) (SizeUtil.getScreenWidth() * mWrapperDialogConfig.getWidthPercentValue() * 1.0F / 100);
@@ -171,8 +172,8 @@ public class ClassicDialogFragment extends DialogFragment {
                 int backgroundColor = Integer.parseInt(mWrapperDialogConfig.getBackgroundColorValue());
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
             } else {
-//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
             dialog.getWindow().setLayout(width, height);
         }

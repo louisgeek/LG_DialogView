@@ -176,12 +176,12 @@ public class DialogManager {
 
     public static void showClassicDialog(FragmentActivity fragmentActivity, String title, String message,
                                          OnBtnClickListener onBtnClickListener) {
-        showClassicDialog(fragmentActivity, title, message, onBtnClickListener, "确定", "取消", String.valueOf(Color.TRANSPARENT),"showClassicDialog");
+        showClassicDialog(fragmentActivity, title, message, onBtnClickListener, "确定", "取消", "showClassicDialog");
     }
 
     public static void showClassicDialog(FragmentActivity fragmentActivity, String title, String message,
                                          OnBtnClickListener onBtnClickListener,
-                                         String okText, String cancelText,String backgroundColorValue, String tag) {
+                                         String okText, String cancelText, String tag) {
         if (fragmentActivity == null || fragmentActivity.isFinishing() || message == null) {
             return;
         }
@@ -194,7 +194,7 @@ public class DialogManager {
                 .setOnBtnClickListener(onBtnClickListener)
                 .setOkText(okText)
                 .setCancelText(cancelText)
-                .setBackgroundColorValue(backgroundColorValue)
+//                .setBackgroundColorValue(backgroundColorValue)
                 .build();
         classicDialogFragment.show(fragmentActivity.getSupportFragmentManager(), tag);
         mClassicDialogFragmentWeakReference = new WeakReference<>(classicDialogFragment);
