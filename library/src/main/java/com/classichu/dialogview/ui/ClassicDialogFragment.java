@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -158,7 +159,7 @@ public class ClassicDialogFragment extends DialogFragment {
         if (dialog != null && dialog.getWindow() != null) {
             int width = dialog.getWindow().getAttributes().width;
             int height = dialog.getWindow().getAttributes().height;
-
+            dialog.getWindow().setFormat(PixelFormat.RGBA_8888);
             if (mWrapperDialogConfig.getWidthPercentValue() > 0F) {
                 width = (int) (SizeUtil.getScreenWidth() * mWrapperDialogConfig.getWidthPercentValue() * 1.0F / 100);
             }

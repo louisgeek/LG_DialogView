@@ -2,6 +2,7 @@ package com.classichu.classicdialogview;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 //                        .setCustomTitleView(dialogTitleTextView)
                         .setTitle("dsadasdas")
                         .setMessage("dsad")
+                        .setBackgroundColorValue(String.valueOf(Color.WHITE))
                         .build().show(getSupportFragmentManager(), "dsada");
             }
         });
@@ -162,10 +164,16 @@ public class MainActivity extends AppCompatActivity {
 
         ClassicDialogFragment classicDialogFragment =
                 new ClassicDialogFragment.Builder(this)
+                        .setTitle("test")
+                        .setMessage("message")
+                        .setBackgroundColorValue(String.valueOf(Color.WHITE))
+                        .setOkText("确认")
+                        .setCancelText("取消")
                         .setOnBtnClickListener(new OnBtnClickListener() {
                             @Override
                             public void onBtnClickOk(DialogInterface dialogInterface) {
                                 super.onBtnClickOk(dialogInterface);
+                                dialogInterface.dismiss();
                             }
                         })
                         .build();
