@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by louisgeek on 2017/3/2.
  */
 
-public class DialogConfigWrapper implements Serializable {
+public class DialogViewConfig implements Serializable {
 
     private View contentView;
     private View customTitleView;
@@ -35,8 +35,8 @@ public class DialogConfigWrapper implements Serializable {
         this.heightPercentValue = heightPercentValue;
     }
 
-    private float widthPercentValue;//接受0~100 不包括0
-    private float heightPercentValue;//接受0~100 不包括0
+    private float widthPercentValue;//接受0~100
+    private float heightPercentValue;//接受0~100
 
     public boolean isCancelable() {
         return cancelable;
