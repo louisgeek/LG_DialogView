@@ -24,7 +24,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.louisgeek.dialogview.helper.DialogFragmentShowHelper;
 import com.louisgeek.dialogview.listener.OnBtnClickListener;
 import com.louisgeek.dialogview.util.ReflectUtil;
-import com.louisgeek.dialogview.wrapper.DialogConfigWrapper;
+import com.louisgeek.dialogview.wrapper.DialogViewConfig;
 import com.louisgeek.dialogview.tool.ScreenTool;
 
 /**
@@ -34,7 +34,7 @@ public class DialogView extends DialogFragment {
     private static final String TAG = "ClassicDialogFragment";
     private final static String TITLE_KEY = "TITLE_KEY";
     private final static String MESSAGE_KEY = "MESSAGE_KEY";
-    private DialogConfigWrapper mWrapperDialogConfig = new DialogConfigWrapper();
+    private DialogViewConfig mDialogViewConfig = new DialogViewConfig();
     protected AppCompatActivity mActivity;
     protected Context mContext;
 
@@ -63,30 +63,30 @@ public class DialogView extends DialogFragment {
         }
         //这样设置无效 需要设置DialogFragment的setCancelable方法才有效
         //!!! builder.setCancelable(mWrapperDialogConfig.isCancelable());
-        this.setCancelable(mWrapperDialogConfig.isCancelable());
+        this.setCancelable(mDialogViewConfig.isCancelable());
 
-        if (mWrapperDialogConfig.getCustomTitleView() != null) {
-            builder.setCustomTitle(mWrapperDialogConfig.getCustomTitleView());
+        if (mDialogViewConfig.getCustomTitleView() != null) {
+            builder.setCustomTitle(mDialogViewConfig.getCustomTitleView());
         }
-        if (mWrapperDialogConfig.getContentView() != null) {
-            builder.setView(mWrapperDialogConfig.getContentView());
+        if (mDialogViewConfig.getContentView() != null) {
+            builder.setView(mDialogViewConfig.getContentView());
         }
-        if (!TextUtils.isEmpty(mWrapperDialogConfig.getOkText())) {
-            builder.setPositiveButton(mWrapperDialogConfig.getOkText(), new DialogInterface.OnClickListener() {
+        if (!TextUtils.isEmpty(mDialogViewConfig.getOkText())) {
+            builder.setPositiveButton(mDialogViewConfig.getOkText(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if (mWrapperDialogConfig.getOnBtnClickListener() != null) {
-                        mWrapperDialogConfig.getOnBtnClickListener().onBtnClickOk(dialogInterface);
+                    if (mDialogViewConfig.getOnBtnClickListener() != null) {
+                        mDialogViewConfig.getOnBtnClickListener().onBtnClickOk(dialogInterface);
                     }
                 }
             });
         }
-        if (!TextUtils.isEmpty(mWrapperDialogConfig.getCancelText())) {
-            builder.setNegativeButton(mWrapperDialogConfig.getCancelText(), new DialogInterface.OnClickListener() {
+        if (!TextUtils.isEmpty(mDialogViewConfig.getCancelText())) {
+            builder.setNegativeButton(mDialogViewConfig.getCancelText(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if (mWrapperDialogConfig.getOnBtnClickListener() != null) {
-                        mWrapperDialogConfig.getOnBtnClickListener().onBtnClickCancel(dialogInterface);
+                    if (mDialogViewConfig.getOnBtnClickListener() != null) {
+                        mDialogViewConfig.getOnBtnClickListener().onBtnClickCancel(dialogInterface);
                     }
                 }
             });
@@ -135,8 +135,8 @@ public class DialogView extends DialogFragment {
         return mDismissed;
     }
 
-    private void setWrapperDialogConfig(DialogConfigWrapper wrapperDialogConfig) {
-        mWrapperDialogConfig = wrapperDialogConfig;
+    private void setDialogViewConfig(DialogViewConfig dialogViewConfig) {
+        mDialogViewConfig = dialogViewConfig;
     }
 
     @Override
@@ -161,15 +161,15 @@ public class DialogView extends DialogFragment {
             int height = dialog.getWindow().getAttributes().height;
             //不设置这个 部分机子上非透明背景会出现四周黑边框（不过启用硬件加速可能可以去掉边框）
             dialog.getWindow().setFormat(PixelFormat.RGBA_8888);
-            if (mWrapperDialogConfig.getWidthPercentValue() > 0F) {
-                width = (int) (ScreenTool.getScreenWidth() * mWrapperDialogConfig.getWidthPercentValue() * 1.0F / 100);
+            if (mDialogViewConfig.getWidthPercentValue() >= 0F) {
+                width = (int) (ScreenTool.getScreenWidth() * mDialogViewConfig.getWidthPercentValue() * 1.0F / 100);
             }
-            if (mWrapperDialogConfig.getHeightPercentValue() > 0F) {
-                height = (int) (ScreenTool.getScreenHeight() * mWrapperDialogConfig.getHeightPercentValue() * 1.0F / 100);
+            if (mDialogViewConfig.getHeightPercentValue() >= 0F) {
+                height = (int) (ScreenTool.getScreenHeight() * mDialogViewConfig.getHeightPercentValue() * 1.0F / 100);
             }
             //加这个，否则无法实现百分百全屏
-            if (mWrapperDialogConfig.getBackgroundColorValue() != null) {
-                int backgroundColor = Integer.parseInt(mWrapperDialogConfig.getBackgroundColorValue());
+            if (mDialogViewConfig.getBackgroundColorValue() != null) {
+                int backgroundColor = Integer.parseInt(mDialogViewConfig.getBackgroundColorValue());
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(backgroundColor));
             } else {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
@@ -181,37 +181,39 @@ public class DialogView extends DialogFragment {
 
 
     public View getContentView() {
-        return mWrapperDialogConfig.getContentView();
+        return mDialogViewConfig.getContentView();
     }
 
     public static class Builder {
+        private Context context;
         private String title;
         private String message;
-        private Context context;
-        private DialogConfigWrapper wrapperDialogConfig = new DialogConfigWrapper();
-
+        private DialogViewConfig dialogViewConfig = new DialogViewConfig();
 
         public Builder(Context context) {
+            //必要参数通过构造函数传入
             this.context = context;
         }
 
         public Builder setContentView(int layoutResId) {
-            setContentView(LayoutInflater.from(context).inflate(layoutResId, null));
+            View contentView = LayoutInflater.from(context).inflate(layoutResId, null);
+            this.dialogViewConfig.setContentView(contentView);
             return this;
         }
 
         public Builder setContentView(View contentView) {
-            this.wrapperDialogConfig.setContentView(contentView);
+            this.dialogViewConfig.setContentView(contentView);
             return this;
         }
 
         public Builder setCustomTitleView(int layoutResId) {
-            setCustomTitleView(LayoutInflater.from(context).inflate(layoutResId, null));
+            View contentView = LayoutInflater.from(context).inflate(layoutResId, null);
+            this.dialogViewConfig.setCustomTitleView(contentView);
             return this;
         }
 
         public Builder setCustomTitleView(View contentView) {
-            this.wrapperDialogConfig.setCustomTitleView(contentView);
+            this.dialogViewConfig.setCustomTitleView(contentView);
             return this;
         }
 
@@ -221,7 +223,7 @@ public class DialogView extends DialogFragment {
         }
 
         public Builder setTitle(int resid) {
-            setTitle(context.getString(resid));
+            this.title = context.getString(resid);
             return this;
         }
 
@@ -231,58 +233,58 @@ public class DialogView extends DialogFragment {
         }
 
         public Builder setMessage(int resid) {
-            setMessage(context.getString(resid));
+            this.message = context.getString(resid);
             return this;
         }
 
         public Builder setOkText(String okText) {
-            wrapperDialogConfig.setOkText(okText);
+            dialogViewConfig.setOkText(okText);
             return this;
         }
 
         public Builder setOkText(int resid) {
-            setOkText(context.getString(resid));
+            dialogViewConfig.setOkText(context.getString(resid));
             return this;
         }
 
         public Builder setCancelText(String cancelText) {
-            wrapperDialogConfig.setCancelText(cancelText);
+            dialogViewConfig.setCancelText(cancelText);
             return this;
         }
 
         public Builder setCancelText(int resid) {
-            setCancelText(context.getString(resid));
+            dialogViewConfig.setCancelText(context.getString(resid));
             return this;
         }
 
         public Builder setWidthPercentValue(float widthPercentValue) {
-            wrapperDialogConfig.setWidthPercentValue(widthPercentValue);
+            dialogViewConfig.setWidthPercentValue(widthPercentValue);
             return this;
         }
 
         public Builder setHeightPercentValue(float heightPercentValue) {
-            wrapperDialogConfig.setHeightPercentValue(heightPercentValue);
+            dialogViewConfig.setHeightPercentValue(heightPercentValue);
             return this;
         }
 
         public Builder setBackgroundColorValue(String backgroundColorValue) {
-            wrapperDialogConfig.setBackgroundColorValue(backgroundColorValue);
+            dialogViewConfig.setBackgroundColorValue(backgroundColorValue);
             return this;
         }
 
         public Builder setCancelable(boolean cancelable) {
-            wrapperDialogConfig.setCancelable(cancelable);
+            dialogViewConfig.setCancelable(cancelable);
             return this;
         }
 
         public Builder setOnBtnClickListener(OnBtnClickListener onBtnClickListener) {
-            this.wrapperDialogConfig.setOnBtnClickListener(onBtnClickListener);
+            this.dialogViewConfig.setOnBtnClickListener(onBtnClickListener);
             return this;
         }
 
         public DialogView build() {
             DialogView dialogView = DialogView.newInstance(title, message);
-            dialogView.setWrapperDialogConfig(wrapperDialogConfig);
+            dialogView.setDialogViewConfig(dialogViewConfig);
             return dialogView;
         }
     }
