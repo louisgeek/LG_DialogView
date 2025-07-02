@@ -24,7 +24,8 @@ import com.louisgeek.dialogview.listener.OnBtnClickListener;
 import com.louisgeek.dialogview.listener.OnEditBtnClickListener;
 import com.louisgeek.dialogview.DialogView;
 import com.louisgeek.dialogview.R;
-import com.louisgeek.dialogview.tool.SizeTool;
+import com.louisgeek.library.tool.ScreenTool;
+import com.louisgeek.library.tool.SizeTool;
 
 import java.lang.ref.WeakReference;
 
@@ -163,7 +164,7 @@ public class DialogViewManager {
         DialogView loadingDialogView = new DialogView.Builder(fragmentActivity)
                 .setContentView(linearLayout)
                 .setCancelable(false)
-                .setWidthPercentValue(45F)
+                .setLayoutWidth((int) (ScreenTool.getScreenHeight() * 0.45f))
                 .build();
 
         loadingDialogView.show(fragmentActivity.getSupportFragmentManager(), "showLoadingDialog");

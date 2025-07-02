@@ -19,24 +19,8 @@ public class DialogViewConfig implements Serializable {
     private boolean cancelable;
     private String backgroundColorValue;
 
-    public float getWidthPercentValue() {
-        return widthPercentValue;
-    }
-
-    public float getHeightPercentValue() {
-        return heightPercentValue;
-    }
-
-    public void setWidthPercentValue(float widthPercentValue) {
-        this.widthPercentValue = widthPercentValue;
-    }
-
-    public void setHeightPercentValue(float heightPercentValue) {
-        this.heightPercentValue = heightPercentValue;
-    }
-
-    private float widthPercentValue;//接受0~100
-    private float heightPercentValue;//接受0~100
+    private Integer layoutWidth;
+    private Integer layoutHeight;
 
     public boolean isCancelable() {
         return cancelable;
@@ -94,5 +78,21 @@ public class DialogViewConfig implements Serializable {
 
     public void setBackgroundColorValue(String backgroundColorValue) {
         this.backgroundColorValue = backgroundColorValue;
+    }
+
+    public Integer getLayoutWidth() {
+        return layoutWidth;
+    }
+
+    public void setLayoutWidth(Integer layoutWidth) {
+        this.layoutWidth = layoutWidth;
+    }
+
+    public Integer getLayoutHeight() {
+        return layoutHeight;
+    }
+
+    public void setLayoutHeight(Integer layoutHeight) {
+        this.layoutHeight = layoutHeight;
     }
 }

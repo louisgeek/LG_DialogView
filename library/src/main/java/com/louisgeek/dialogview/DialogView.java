@@ -25,7 +25,6 @@ import com.louisgeek.dialogview.helper.DialogFragmentShowHelper;
 import com.louisgeek.dialogview.listener.OnBtnClickListener;
 import com.louisgeek.dialogview.util.ReflectUtil;
 import com.louisgeek.dialogview.wrapper.DialogViewConfig;
-import com.louisgeek.dialogview.tool.ScreenTool;
 
 /**
  * Created by louisgeek on 2016/6/7.
@@ -130,8 +129,8 @@ public class DialogView extends DialogFragment {
     public boolean isDismissed() {
         boolean mDismissed = ReflectUtil.getFieldValueFromSuperClass(DialogFragment.class, this, "mDismissed");
 //        boolean mShownByMe = ReflectTool.getFieldValueFromSuperClass(DialogFragment.class, this, "mShownByMe");
-        Log.e(TAG, "mProgressDialogFragment2 isDismissed: " + mDismissed + this);
-//        Log.e(TAG, "mProgressDialogFragment2 mShownByMe: " + mShownByMe + this);
+        Log.e(TAG, "DialogView isDismissed: " + mDismissed + this);
+//        Log.e(TAG, "DialogView mShownByMe: " + mShownByMe + this);
         return mDismissed;
     }
 
@@ -141,13 +140,13 @@ public class DialogView extends DialogFragment {
 
     @Override
     public void show(FragmentManager manager, String tag) {
-        //#### super.show(manager, tag);
+        //### super.show(manager, tag);
         DialogFragmentShowHelper.show(manager, this, tag);
     }
 
     @Override
     public int show(FragmentTransaction transaction, String tag) {
-        //#### return super.show(transaction, tag);
+        //### return super.show(transaction, tag);
         return DialogFragmentShowHelper.show(transaction, this, tag);
     }
 
@@ -161,11 +160,11 @@ public class DialogView extends DialogFragment {
             int height = dialog.getWindow().getAttributes().height;
             //不设置这个 部分机子上非透明背景会出现四周黑边框（不过启用硬件加速可能可以去掉边框）
             dialog.getWindow().setFormat(PixelFormat.RGBA_8888);
-            if (mDialogViewConfig.getWidthPercentValue() >= 0F) {
-                width = (int) (ScreenTool.getScreenWidth() * mDialogViewConfig.getWidthPercentValue() * 1.0F / 100);
+            if (mDialogViewConfig.getLayoutWidth() != null) {
+                width = mDialogViewConfig.getLayoutWidth();
             }
-            if (mDialogViewConfig.getHeightPercentValue() >= 0F) {
-                height = (int) (ScreenTool.getScreenHeight() * mDialogViewConfig.getHeightPercentValue() * 1.0F / 100);
+            if (mDialogViewConfig.getLayoutHeight() != null) {
+                height = mDialogViewConfig.getLayoutHeight();
             }
             //加这个，否则无法实现百分百全屏
             if (mDialogViewConfig.getBackgroundColorValue() != null) {
@@ -188,7 +187,7 @@ public class DialogView extends DialogFragment {
         private Context context;
         private String title;
         private String message;
-        private DialogViewConfig dialogViewConfig = new DialogViewConfig();
+        private DialogViewConfig dialogViewConfig = new DialogViewConfig(); //非关键参数
 
         public Builder(Context context) {
             //必要参数通过构造函数传入
@@ -257,13 +256,13 @@ public class DialogView extends DialogFragment {
             return this;
         }
 
-        public Builder setWidthPercentValue(float widthPercentValue) {
-            dialogViewConfig.setWidthPercentValue(widthPercentValue);
+        public Builder setLayoutWidth(int layoutWidth) {
+            dialogViewConfig.setLayoutWidth(layoutWidth);
             return this;
         }
 
-        public Builder setHeightPercentValue(float heightPercentValue) {
-            dialogViewConfig.setHeightPercentValue(heightPercentValue);
+        public Builder setLayoutHeight(int layoutHeight) {
+            dialogViewConfig.setLayoutHeight(layoutHeight);
             return this;
         }
 

@@ -85,7 +85,7 @@ public class ReflectUtil {
         try {
             Method method = tClass.getMethod(methodName, parameterType, parameterTypes2);
             method.setAccessible(true);
-            Object result= method.invoke(obj, arg, arg2);
+            Object result = method.invoke(obj, arg, arg2);
             return result;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
