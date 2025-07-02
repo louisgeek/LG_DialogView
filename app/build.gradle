@@ -41,6 +41,7 @@ dependencies {
     implementation libs.androidx.constraintlayout
 
     implementation project(':library')
+    implementation 'com.github.louisgeek:LG_Library:v1.0.1'
 
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit

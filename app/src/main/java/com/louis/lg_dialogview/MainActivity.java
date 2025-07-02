@@ -17,6 +17,7 @@ import com.louisgeek.dialogview.listener.OnBtnClickListener;
 import com.louisgeek.dialogview.listener.OnEditBtnClickListener;
 import com.louisgeek.dialogview.manager.DialogViewManager;
 import com.louisgeek.dialogview.DialogView;
+import com.louisgeek.library.tool.ScreenTool;
 
 public class MainActivity extends AppCompatActivity {
     FragmentActivity fragmentActivity;
@@ -60,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
                 //
                 TextView dialogTitleTextView = new TextView(context);
 //                SizeUtil.setPaddingLeftTopRight(dialogTitleTextView, 20);
-                dialogTitleTextView.setText("温习提示");
+                dialogTitleTextView.setText("温馨提示");
                 new DialogView.Builder(fragmentActivity)
 //                        .setCustomTitleView(dialogTitleTextView)
                         .setTitle("dsadasdas")
                         .setMessage("dsad")
+                        .setLayoutWidth((int) (ScreenTool.getScreenHeight() * 0.3f))
                         .setCancelable(true)
                         .setBackgroundColorValue(String.valueOf(Color.WHITE))
                         .build().show(getSupportFragmentManager(), "dsada");
@@ -161,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "onBtnClickOk inputText:" + inputText, Toast.LENGTH_SHORT).show();
             }
         });*/
-
 
         DialogView dialogView =
                 new DialogView.Builder(this)
